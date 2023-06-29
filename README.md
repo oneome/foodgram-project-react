@@ -215,5 +215,5 @@ http://51.250.100.0/admin/
 
 ## Об авторе 
 Прылипко Егор Сергеевич 
-[needred](https://github.com/oneome/) 
+[oneome](https://github.com/oneome/) 
  
