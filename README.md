@@ -213,5 +213,6 @@ http://51.250.103.156/api/docs/redoc.html
 http://51.250.103.156 
 http://51.250.103.156/admin/
 
-## Об авторе
-[needred](https://github.com/needred/)
+## Об авторе 
+Прылипко Егор Сергеевич
+[needred](https://github.com/oneome/)
