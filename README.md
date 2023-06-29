@@ -211,9 +211,11 @@ Email: ```user2@user.zz```
 http://51.250.100.0/api/docs/redoc.html
 ### Развёрнутый проект:
 http://51.250.100.0 
+ 
 http://51.250.100.0/admin/
 
 ## Об авторе 
 Прылипко Егор Сергеевич 
+ 
 [oneome](https://github.com/oneome/) 
  
