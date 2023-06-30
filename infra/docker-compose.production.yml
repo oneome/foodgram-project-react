@@ -1,15 +1,23 @@
 version: '3.8'
 
+volumes:
+  static_value:
+  media_value:
+  db_data:
+
 services:
 
   db:
+    container_name: db
     image: postgres:13.0-alpine
     volumes:
       - db_data:/var/lib/postgresql/data/
     env_file:
       - .env
+    restart: always
 
   backend:
+    container_name: backend
     image: 1oneome1/foodgram_backend:latest
     restart: always
     volumes:
@@ -21,6 +29,7 @@ services:
       - .env
 
   frontend:
+    container_name: frontend
     image: 1oneome1/foodgram_frontend:latest
     volumes:
       - ../frontend/:/app/result_build/
@@ -28,6 +37,7 @@ services:
       - backend
 
   nginx:
+    container_name: gateway
     image: nginx:1.21.3-alpine
     ports:
       - "8000:80"
@@ -39,9 +49,5 @@ services:
       - ../docs/:/usr/share/nginx/html/api/docs/
     restart: always
     depends_on:
+      - backend
       - frontend
-
-volumes:
-  static_value:
-  media_value:
-  db_data:

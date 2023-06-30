@@ -48,6 +48,24 @@ jobs:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
     steps:
+      - name: Copy docker-compose.yml via ssh
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          source: "infra/docker-compose.production.yml"
+          target: "foodgram"
+      - name: Copy docker-compose.yml via ssh
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          source: "infra/nginx.conf"
+          target: "foodgram"
       - name: executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
         with:
@@ -58,22 +76,22 @@ jobs:
           target: "foodgram"
           script: |
             cd foodgram
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram-backend:latest
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram-frontend:latest
-            # sudo docker-compose down -v
-            sudo docker-compose stop
-            sudo docker-compose rm backend
-            touch .env
-            echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
-            echo DB_NAME=${{ secrets.DB_NAME }} >> .env
-            echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
-            echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
-            echo DB_HOST=${{ secrets.DB_HOST }} >> .env
-            echo DB_PORT=${{ secrets.DB_PORT }} >> .env
-            echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
-            echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
-            sudo docker-compose up -d
-            # sudo docker-compose exec -T backend python manage.py migrate
+            sudo docker system prune --all --force
+            sudo docker compose -f docker-compose.production.yml pull
+            sudo docker compose -f docker-compose.production.yml down
+            # touch .env
+            # echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
+            # echo DB_NAME=${{ secrets.DB_NAME }} >> .env
+            # echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
+            # echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
+            # echo DB_HOST=${{ secrets.DB_HOST }} >> .env
+            # echo DB_PORT=${{ secrets.DB_PORT }} >> .env
+            # echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
+            # echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
+            sudo docker compose -f docker-compose.production.yml up -d
+            sudo docker system prune --all --force
+            # sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
+            # sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic
             ## echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='${{ secrets.ADMIN_USERNAME }}').exists() or User.objects.create_superuser('${{ secrets.ADMIN_USERNAME }}', '${{ secrets.ADMIN_USERNAME }}@admin.zz', '${{ secrets.ADMIN_PASSWORD }}')" | sudo docker-compose exec -T backend python manage.py shell
             # echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='admin').exists() or User.objects.create_superuser('admin', 'admin@admin.zz', '123456')" | sudo docker-compose exec -T backend python manage.py shell
             # sudo docker-compose exec backend python manage.py load_ingredients
