@@ -104,20 +104,18 @@ class ShowRecipeSerializer(serializers.ModelSerializer):
         Проверка на наличие рецепта в избранном.
         """
         request = self.context.get('request')
-        if not request or request.user.is_anonymous:
-            return False
-        return FavoriteRecipe.objects.filter(recipe=obj,
-                                             user=request.user).exists()
+        return False if not request or request.user.is_anonymous else\
+            FavoriteRecipe.objects.filter(recipe=obj,
+                                          user=request.user).exists()
 
     def get_is_in_shopping_cart(self, obj):
         """
         Проверка на наличие рецепта в списке покупок.
         """
         request = self.context.get('request')
-        if not request or request.user.is_anonymous:
-            return False
-        return ShoppingList.objects.filter(recipe=obj,
-                                           user=request.user).exists()
+        return False if not request or request.user.is_anonymous else\
+            ShoppingList.objects.filter(recipe=obj,
+                                        user=request.user).exists()
 
 
 class AddIngredientRecipeSerializer(serializers.ModelSerializer):

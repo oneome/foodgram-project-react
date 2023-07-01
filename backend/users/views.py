@@ -39,7 +39,7 @@ def follow_author(request, pk):
         )
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    if request.method == 'DELETE':
+    else:
         try:
             subscription = Follow.objects.get(user=user, author=author)
         except ObjectDoesNotExist:

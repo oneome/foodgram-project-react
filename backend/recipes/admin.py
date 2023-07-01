@@ -45,12 +45,6 @@ class RecipeIngredientsInline(admin.TabularInline):
     extra = 1
 
 
-# class RecipeTagsInline(admin.TabularInline):
-#     model = RecipeTag
-#     min_num = 1
-#     extra = 0
-
-
 @admin.register(RecipeIngredient)
 class RecipeIngredientsAdmin(admin.ModelAdmin):
     list_display = (
@@ -60,16 +54,6 @@ class RecipeIngredientsAdmin(admin.ModelAdmin):
         'amount',
     )
     list_filter = ('id', 'recipe', 'ingredient')
-
-
-# @admin.register(RecipeTag)
-# class RecipeTagsAdmin(admin.ModelAdmin):
-#     list_display = (
-#         'id',
-#         'recipe',
-#         'tag',
-#     )
-#     list_filter = ('id', 'recipe', 'tag')
 
 
 @admin.register(Recipe)

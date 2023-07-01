@@ -10,7 +10,7 @@ from weasyprint import HTML
 from foodgram.pagination import LimitPageNumberPaginator
 from .filters import IngredientFilter, RecipeFilter
 from .models import (Ingredient, Recipe, Tag)
-from .permissions import IsAdminOrReadOnly, IsAuthorOrAdmin
+from .permissions import IsAuthorOrAdmin
 from .serializers import (
     AddRecipeSerializer,
     IngredientSerializer,
@@ -87,7 +87,7 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     pagination_class = None
-    permission_classes = (IsAdminOrReadOnly,)
+    permission_classes = (permissions.IsAdminUser,)
 
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):

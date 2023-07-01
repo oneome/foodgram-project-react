@@ -10,7 +10,6 @@ class User(AbstractUser):
     ADMIN = 'admin'
     ROLES = {
         (USER, 'user'),
-        (MODERATOR, 'moderator'),
         (ADMIN, 'admin'),
     }
     email = models.EmailField(
@@ -59,7 +58,6 @@ class User(AbstractUser):
         max_length=150,
         help_text=_('Введите пароль'),
     )
-    # USERNAME_FIELD = 'email'
 
     class Meta:
         swappable = 'AUTH_USER_MODEL'

@@ -3,6 +3,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from .constant import len_short_name, len_long_name, lem_measurement
 from .fields import HexColorField
 
 User = get_user_model()
@@ -17,7 +18,7 @@ class Tag(models.Model):
     """
     name = models.CharField(
         verbose_name=_('Название'),
-        max_length=40,
+        max_length=len_short_name,
         unique=True,
         null=False,
         help_text='Название тега',
@@ -51,13 +52,13 @@ class Ingredient(models.Model):
     """
     name = models.CharField(
         verbose_name=_('Название'),
-        max_length=200,
+        max_length=len_long_name,
         blank=False,
         help_text='Введите название ингредиента',
     )
     measurement_unit = models.CharField(
         verbose_name=_('Единица измерения'),
-        max_length=50,
+        max_length=lem_measurement,
         blank=False,
         help_text='Выберите единицу измерения',
     )
@@ -89,7 +90,7 @@ class Recipe(models.Model):
     """
     name = models.CharField(
         verbose_name=_('Название'),
-        max_length=200,
+        max_length=len_long_name,
         unique=True,
         help_text='Укажите название рецепта',
     )
@@ -128,7 +129,7 @@ class Recipe(models.Model):
     )
 
     class Meta:
-        ordering = ('-id',)
+        ordering = ('name',)
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
 
@@ -206,7 +207,7 @@ class FavoriteRecipe(models.Model):
                 name='unique_favorite',
             ),
         )
-        ordering = ('-id',)
+        ordering = ('user',)
         verbose_name = 'Избранное'
         verbose_name_plural = 'Избранные рецепты'
 
@@ -240,7 +241,7 @@ class ShoppingList(models.Model):
                 name='shopping_recipe_user_exists',
             ),
         )
-        ordering = ('-id',)
+        ordering = ('user',)
         verbose_name = 'Список покупок'
         verbose_name_plural = 'Списки покупок'
 
