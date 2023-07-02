@@ -1,3 +1,3 @@
-len_short_name = 40
-len_long_name = 200
-lem_measurement = 50
+LEN_SHORT_NAME = 40
+LEN_LONG_NAME = 200
+LEN_MEASUREMENT = 50

@@ -3,6 +3,8 @@ from django.db import models
 from django.db.models import F, Q
 from django.utils.translation import gettext_lazy as _
 
+from .constant import LEN_NAME, LEN_EMAIL, len_role, LEN_PASSWORD
+
 
 class User(AbstractUser):
     USER = 'user'
@@ -14,7 +16,7 @@ class User(AbstractUser):
     }
     email = models.EmailField(
         verbose_name=_('Адрес email'),
-        max_length=254,
+        max_length=LEN_EMAIL,
         unique=True,
         blank=False,
         error_messages={
@@ -24,7 +26,7 @@ class User(AbstractUser):
     )
     username = models.CharField(
         verbose_name=_('Логин'),
-        max_length=150,
+        max_length=LEN_NAME,
         unique=True,
         error_messages={
             'unique': _('Пользователь с таким никнеймом уже существует!'),
@@ -33,19 +35,19 @@ class User(AbstractUser):
     )
     first_name = models.CharField(
         verbose_name=_('Имя'),
-        max_length=150,
+        max_length=LEN_NAME,
         blank=True,
         help_text=_('Укажите своё имя'),
     )
     last_name = models.CharField(
         verbose_name=_('Фамилия'),
-        max_length=150,
+        max_length=LEN_NAME,
         blank=True,
         help_text=_('Укажите свою фамилию'),
     )
     role = models.CharField(
         verbose_name=_('статус'),
-        max_length=20,
+        max_length=len_role(ROLES),
         choices=ROLES,
         default=USER,
     )
@@ -55,7 +57,7 @@ class User(AbstractUser):
     )
     password = models.CharField(
         verbose_name=_('Пароль'),
-        max_length=150,
+        max_length=LEN_PASSWORD,
         help_text=_('Введите пароль'),
     )
 

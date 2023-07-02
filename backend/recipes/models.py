@@ -3,7 +3,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from .constant import len_short_name, len_long_name, lem_measurement
+from .constant import LEN_SHORT_NAME, LEN_LONG_NAME, LEN_MEASUREMENT
 from .fields import HexColorField
 
 User = get_user_model()
@@ -18,7 +18,7 @@ class Tag(models.Model):
     """
     name = models.CharField(
         verbose_name=_('Название'),
-        max_length=len_short_name,
+        max_length=LEN_SHORT_NAME,
         unique=True,
         null=False,
         help_text='Название тега',
@@ -36,7 +36,7 @@ class Tag(models.Model):
     )
 
     class Meta:
-        ordering = ('-id',)
+        ordering = ('name',)
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
 
@@ -52,13 +52,13 @@ class Ingredient(models.Model):
     """
     name = models.CharField(
         verbose_name=_('Название'),
-        max_length=len_long_name,
+        max_length=LEN_LONG_NAME,
         blank=False,
         help_text='Введите название ингредиента',
     )
     measurement_unit = models.CharField(
         verbose_name=_('Единица измерения'),
-        max_length=lem_measurement,
+        max_length=LEN_MEASUREMENT,
         blank=False,
         help_text='Выберите единицу измерения',
     )
@@ -69,7 +69,7 @@ class Ingredient(models.Model):
                 fields=('name', 'measurement_unit'),
                 name='pair_unique'),
         )
-        ordering = ('-id',)
+        ordering = ('name',)
         verbose_name = 'Ингредиент'
         verbose_name_plural = 'Ингредиенты'
 
@@ -90,7 +90,7 @@ class Recipe(models.Model):
     """
     name = models.CharField(
         verbose_name=_('Название'),
-        max_length=len_long_name,
+        max_length=LEN_LONG_NAME,
         unique=True,
         help_text='Укажите название рецепта',
     )

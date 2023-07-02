@@ -8,17 +8,13 @@ from rest_framework.response import Response
 from weasyprint import HTML
 
 from foodgram.pagination import LimitPageNumberPaginator
+from .utils.shopping_list import get_list_ingredients
 from .filters import IngredientFilter, RecipeFilter
 from .models import (Ingredient, Recipe, Tag)
 from .permissions import IsAuthorOrAdmin
-from .serializers import (
-    AddRecipeSerializer,
-    IngredientSerializer,
-    RecipeSerializer,
-    ShowRecipeSerializer,
-    TagSerializer
-)
-from .utils.shopping_list import get_list_ingredients
+from .serializers import (AddRecipeSerializer, IngredientSerializer,
+                          RecipeSerializer, ShowRecipeSerializer,
+                          TagSerializer)
 
 
 class RecipesViewSet(viewsets.ModelViewSet):
