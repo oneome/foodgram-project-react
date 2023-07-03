@@ -63,7 +63,7 @@ class RecipeAdmin(admin.ModelAdmin):
         'name',
         'author',
         'in_favorite',
-        'ingredient',
+        'ingredients',
     )
     list_filter = ('name', 'author', 'tags',)
     readonly_fields = ('in_favorite',)
@@ -82,7 +82,6 @@ class FavoriteRecipeAdmin(admin.ModelAdmin):
         'id',
         'user',
         'recipe',
-        'ingredient',
     )
 
 
